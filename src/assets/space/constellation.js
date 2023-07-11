@@ -1,0 +1,12 @@
+export const aries = ''
+export const taurus = ''
+export const gemini = ''
+export const cancer = ''
+export const leo = ''
+export const virgo = ``
+export const libra = ''
+export const scorpio = ''
+export const sagittarius = ''
+export const capricorn = ''
+export const aquarius = ''
+export const pisces = ''
