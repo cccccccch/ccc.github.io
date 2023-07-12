@@ -150,7 +150,14 @@
           </div>
         </div>
 
-        <div class="MySpace-main-right">right</div>
+        <div class="MySpace-main-right">right
+          <div class="face">
+            <div class="eyes">
+              <div class="eye"></div>
+              <div class="eye"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
     <horoscopeDialog v-model="value" />
@@ -173,6 +180,8 @@ import { horoscope } from '@/assets/space/horoscope.js'
 import GemePage from './components/GemePage.vue'
 import GameDialog from './components/GameDialog.vue'
 // import toggleButton from '../../components/automation/toggle/index.vue'
+const body = document.querySelector('body')
+var eyeAddEvent
 export default {
   name: 'MySpace',
   components: { Sdialog, ClockDate, horoscopeDialog, GemePage, GameDialog },
@@ -229,11 +238,13 @@ export default {
         // path:''//网络json地址, 选择 animationData 后，则不用path了，
       })
     })
+    this.eyeFuc()
   },
   destroyed () {
     if ((this.timer ?? '') !== '') {
       clearInterval(this.timer)
     }
+    body.removeEventListener('mousemove', eyeAddEvent)
   },
   filters: {
     dateZh (res) {
@@ -273,6 +284,19 @@ export default {
       'GetWeatherDaily',
       'GetWeatherHourly'
     ]),
+    eyeFuc () {
+      const eyes = document.querySelectorAll('.eye')
+      eyeAddEvent = (event) => {
+        eyes.forEach((eye) => {
+          const x = (eye.getBoundingClientRect().left) + (eye.clientWidth / 2)
+          const y = (eye.getBoundingClientRect().top) + (eye.clientHeight / 2)
+          const radian = Math.atan2(event.pageX - x, event.pageY - y)
+          const rot = (radian * (180 / Math.PI) * -1) + 270
+          eye.style.transform = `rotate(${rot}deg)`
+        })
+      }
+      body.addEventListener('mousemove', eyeAddEvent)
+    },
     async getData () {
       await this.GetHotsearch({ type: 'douyin' })
       if (!this.Location.data) {
@@ -408,6 +432,64 @@ export default {
     }
     &-right {
       width: 20vw;
+      .face{
+        box-sizing: border-box;
+        width: 10vw;
+        height: 10vw;
+        background-color: #ffcd01;
+        border-radius: 50%;
+        margin: 0 auto;
+        position: relative;
+        &::before{
+            content: '';
+            width: 4.8vw;
+            height: 2.4vw;
+            background-color: #b67800;
+            position: absolute;
+            top: calc(50% + 1vw);
+            left: calc(50% - 2.4vw);
+            border-bottom-left-radius: 2.4vw;
+            border-bottom-right-radius: 2.4vw;
+          }
+          &:hover{
+            &::before{
+              content: '';
+              width: 4.8vw;
+              height: 1.2vw;
+              background-color: #b67800;
+              position: absolute;
+              top: calc(50% + 1.5vw);
+              left: calc(50% - 2.4vw);
+              border-bottom-left-radius: 0;
+              border-bottom-right-radius: 0;
+            }
+          }
+        .eyes{
+          height: 50%;
+          width: 6.3vw;
+          margin: 0 auto;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          .eye{
+            border-radius: 50%;
+            width: calc(6.6vw * 0.4);
+            height: calc(6.6vw * 0.4);
+            background-color: #fff;
+            position: relative;
+            &::before{
+              content: '';
+              width: calc(1.2vw);
+              height: calc(1.2vw);
+              background-color: #000;
+              border-radius: 50%;
+              position: absolute;
+              top: calc(50% - .5vw);
+              left: 3px;
+            }
+          }
+        }
+      }
     }
     &-item {
       flex: 1;

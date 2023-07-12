@@ -48,7 +48,20 @@
       </div>
     </div>
     <div class="item3 item">
-      <svg class="icon" width="200" height="200">
+        <div class="loading">
+          <div class="circle-body">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+          </div>
+          <div class="circle-loading">
+            Loading
+            <span class="loading__dot">.</span>
+            <span class="loading__dot">.</span>
+            <span class="loading__dot">.</span>
+          </div>
+        </div>
+        <svg class="icon" width="200" height="200">
         <!-- <line
           class="lineP"
           x1="0"
@@ -58,7 +71,7 @@
           stroke-width="3"
           stroke="#000"
         ></line> -->
-        <circle class="lineP" cx="50%" cy="50%" r="40%"/>
+        <circle class="lineP" cx="50%" cy="50%" r="40%" />
       </svg>
     </div>
   </div>
@@ -500,9 +513,10 @@ export default {
 // })
 </script>
 <style scoped lang="scss">
+@import url('./loading.scss');
 .item {
   height: 100vh;
-  background-color: skyblue;
+  background-color: #000;
 }
 .item1 {
   height: calc(100vh - 95px);
@@ -545,6 +559,7 @@ export default {
     opacity: 0;
   }
 }
+
 .main {
   padding: 30px;
   box-sizing: border-box;
@@ -555,8 +570,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-   ::v-deep  .wrapper {
+    ::v-deep .wrapper {
       width: var(--w);
       height: var(--w);
       border-radius: 5px;
@@ -920,8 +934,20 @@ export default {
     box-shadow: inset 3px 3px 0 0 white;
   }
 }
+.icon{
+  display: block;
+  margin: 0 auto;
+}
 .lineP {
-  stroke: red;
+  stroke: rgba(255, 255, 255, .5);
+  transition: 1s;
+  user-select: none;
+  cursor: default;
+  &:hover{
+    transition: 0s;
+    stroke: #0f0;
+    text-shadow: 0 0 120px #0f0;
+  }
   stroke-dasharray: var(--l); //虚线 数值越大 空心与实心线条越大
   stroke-dashoffset: var(--l); //偏移量
   animation: stroke 3s forwards infinite;
