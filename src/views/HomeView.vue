@@ -148,7 +148,20 @@
 
 export default {
   name: 'HomeView',
-  components: {}
+  components: {},
+  methods: {
+    evil (fn) {
+      const Fn = Function
+      return new Fn('return' + fn)()
+    }
+  },
+  created () {
+    const b = '{"msgId":"748c655a2a8348ceaad8d9f4690ffdd7","serviceType":"sosTranssparentType","type":"0","data":null,"msgName":"sosTransparentMsg","targetId":104712,"sosContent":{"cgId":10776,"cgName":"test","sosFromId":104711,"sosLocationAt":"{"id":"64bba97aaf2aeee34137c234","uid":104711,"compId":4139,"speed":0.074268,"direction":0.02031,"baidu":{"lat":22.579355,"lon":113.950465},"gcj":{"lat":22.573686989930252,"lon":113.94388610589782},"wgs84":{"lat":22.576698437674146,"lon":113.93900673584363},"rtime":1689977734000,"stime":1690020218892,"sTimestamp":1690020218892,"rTimestamp":1689977734000,"coordinateType":5,"altitude":0.0,"source":1,"accuracy":0.0,"exceptionMsg":""}","sosMode":1,"sosMsgId":345,"sosSendName":"ptt4@111.demo","sosSt":null,"sosStamp":1690271567846,"type":0}}'
+    // console.log(b.replace('"sosLocationAt":"','"sosLocationAt":').replace('","sosMode":',',"sosMode":'), 'ssss')
+    const c = b.replace('"sosLocationAt":"', '"sosLocationAt":').replace('","sosMode":', ',"sosMode":')
+    const ccc = JSON.parse(c)
+    console.log(ccc)
+  }
 }
 </script>
 <style scoped lang="scss">
@@ -179,7 +192,7 @@ export default {
         }
       }
       .txt {
-        p{
+        p {
           font-size: 14px;
           color: skyblue;
         }

@@ -57,7 +57,7 @@
               </div>
               <div class="foot">热搜</div>
             </div>
-            <div class="item game">
+            <div class="item game" @click="gameDialog=true">
               <div class="top">
                 <GemePage @isShowGameDialog="isShowGameDialog" />
               </div>
@@ -84,7 +84,7 @@
                       {{
                         CitySearch.data
                           ? CitySearch.data.list[0].name
-                          : City.data.list[0].name || '--'
+                          : City.data?City.data.list[0].name : '--'
                       }}
                     </p>
                     <img
@@ -166,6 +166,7 @@
       <template slot="title">{{ date }}</template>
     </Sdialog>
     <GameDialog :show="gameDialog" @showGameDialog="gameDialog = false" />
+    <div class="aircraftSvg" v-html="aircraftSvg"></div>
   </div>
 </template>
 
@@ -177,6 +178,7 @@ import { mapActions, mapState } from 'vuex'
 import ClockDate from './components/clock.vue'
 import lottie from 'lottie-web'
 import { horoscope } from '@/assets/space/horoscope.js'
+import { aircraft } from '@/assets/space/aircraft.js'
 import GemePage from './components/GemePage.vue'
 import GameDialog from './components/GameDialog.vue'
 // import toggleButton from '../../components/automation/toggle/index.vue'
@@ -189,6 +191,7 @@ export default {
     return {
       gameDialog: false,
       horoscopeSvg: horoscope,
+      aircraftSvg: aircraft,
       img: require('@/assets/space/afflatus.json'),
       bgc: 1,
       timer: '',
@@ -286,7 +289,15 @@ export default {
     ]),
     eyeFuc () {
       const eyes = document.querySelectorAll('.eye')
+      const aircraftBox = document.querySelector('.aircraftSvg')
+      let movement = 0
       eyeAddEvent = (event) => {
+        const clientX = event.clientX
+        const clientY = event.clientY
+        if (Math.abs(event.movementX) + Math.abs(event.movementY) > 3) {
+          movement = Math.atan2(event.movementX, -event.movementY)
+        }
+        aircraftBox.style.transform = `translate(${clientX}px,${clientY}px) rotate(${movement}rad)`
         eyes.forEach((eye) => {
           const x = (eye.getBoundingClientRect().left) + (eye.clientWidth / 2)
           const y = (eye.getBoundingClientRect().top) + (eye.clientHeight / 2)
@@ -327,6 +338,16 @@ export default {
       //   console.log(xml)
       // }
     },
+    /**
+     * @description -描述- 获取热搜列表数据
+     * @author -作者- cch
+     * @date -创建时间- 20230811
+     * @lastModifiedBy -最新变更人- cch
+     * @lastModifiedTime -最新的更新时间- 2023-08-11 17：24
+     * @param { string } data - 热搜频道
+     * @example
+     * getHotList('douyi')
+    */
     async getHotList (data) {
       await this.GetHotsearch(data)
     },
@@ -690,27 +711,33 @@ export default {
         }
         @property --direc {
           syntax: '<angle>';
-          initial-value: 0deg;
+          initial-value: 45deg;
           inherits: false;
         }
         @keyframes spin {
-          to {--direc:360deg}
+          50%{
+            --direc:0deg
+          }
+          100%{
+            --direc:360deg
+          }
         }
         .GIF {
           .top {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            --direc: 0deg;
-            background: linear-gradient(var(--direc), rgba(241,167,208,1) 0%, rgba(241,167,208,1) 2%, rgba(224,253,255,1) 100%);
+            --direc: 45deg;
+            // background: linear-gradient(var(--direc), rgba(241,167,208,1) 0%, rgba(241,167,208,1) 2%, rgba(224,253,255,1) 100%);
+            background: linear-gradient(var(--direc), rgba(255,255,255) 0%, rgba(000,000,000) 100%);
+           -webkit-background: linear-gradient(var(--direc), rgba(255,255,255) 0%, rgba(000,000,000) 100%);
             animation: spin 3s linear infinite;
             .GIF-item {
               height: 90%;
               width: 90%;
+              margin: 0 auto;
+              transform: translateY(5px);
               display: flex;
               align-items: center;
               justify-content: center;
-              background-color: #fff;
+              // background-color: #fff;
               border-radius: 1rem;
               img {
                 width: 90px;
@@ -773,5 +800,14 @@ export default {
       }
     }
   }
+  overflow: hidden;
+}
+.aircraftSvg{
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  inset: 0;
+  margin-left: -16px;
+  margin-top: 16px;
 }
 </style>

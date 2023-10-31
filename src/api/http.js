@@ -6,11 +6,14 @@ const _axios = axios.create({
 _axios.defaults.timeout = 60000
 _axios.interceptors.request.use(
   config => {
-    config.headers['i-version'] = '1.0.37'
-    config.headers['i-branch'] = 'zh'
-    config.headers['i-app'] = 'hitab'
-    config.headers['i-branch'] = 'zh'
-    // config.headers.Host = 'api.wetab.link'
+    console.log(config, 'config')
+    if (config.url.includes('api.wetab')) {
+      config.headers['i-version'] = '1.0.37'
+      config.headers['i-branch'] = 'zh'
+      config.headers['i-app'] = 'hitab'
+      config.headers['i-branch'] = 'zh'
+      // config.headers.Host = 'api.wetab.link'
+    }
     return config
   },
   error => {

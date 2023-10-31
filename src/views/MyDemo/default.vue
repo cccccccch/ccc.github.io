@@ -1,12 +1,24 @@
 <template>
   <div>
-    <h1>首页</h1>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <h1>首<br/>页</h1>
     <div class="box">
       <h3>1111111</h3>
       <h3 class="test" v-for="v in 4" :key="v">222222</h3>
     </div>
     <div id="downloadBtn" @click="downloadFile">测试下载</div>
-    <div id="progressBar">测试下载进度条{{percent}}</div>
+    <div id="progressBar">测试下载进度条{{ percent }}</div>
+    <iframe
+      id="iframe"
+      scrolling="auto"
+      security="restricted"
+      frameborder="1"
+      :src="sonURL"
+      height="600px"
+      width="600px"
+      @load="onload"
+      sandbox="allow-popups allow-same-origin allow-top-navigation allow-forms allow-scripts allow-popups"
+    ></iframe>
   </div>
 </template>
 <script>
@@ -15,10 +27,22 @@ export default {
   data () {
     return {
       percent: 0,
-      index: 0
+      index: 0,
+      step: 0,
+      // sonURL: 'https://5n8328i248.imdo.co'
+      // sonURL: 'https://aistest.aviva-cofco.com.cn/ais/screens/view/full/case/1405122/entity/1405122_4458338/page/1/basequestions'
+      sonURL: 'https://aistest.aviva-cofco.com.cn/ais/screens/externalOpenCase?x=6oi1VN2VEbSdD0wOPnlaP8E70sgRRoSVPUZUAUFwqmgaQG43VK9T2kffMRmMHDBWdknLvAAPgU1SkdQssQVGAruTiSpi-xky2tX7Qm5LLDI=~sksCClxnBQLb9MvB_jn4JA=='
     }
   },
+  mounted () {},
   methods: {
+    onload () {
+      // setTimeout(() => {
+      //   const box = document.querySelector('#iframe')
+      //   box.contentWindow.location =
+      //     'https://aistest.aviva-cofco.com.cn/ais/screens/view/full/case/1405122/entity/1405122_4458338/page/1/basequestions'
+      // }, 1000)
+    },
     downloadFile () {
       const downloadURL =
         'https://f001.backblazeb2.com/file/geph4-dl/geph-releases/windows-stable/4.8.5/geph-windows-setup.exe' // 下载链接
@@ -52,11 +76,11 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.box{
-& h3:not(:nth-child(1)){
-  &:nth-child(2){
-    color: red;
+.box {
+  & h3:not(:nth-child(1)) {
+    &:nth-child(2) {
+      color: red;
+    }
   }
-}
 }
 </style>

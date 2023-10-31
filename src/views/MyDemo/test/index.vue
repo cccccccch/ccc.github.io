@@ -5,6 +5,24 @@
       <div class="main" id="main">
         <div class="countdown_3d"></div>
       </div>
+      <div class="slideshow">
+        <div class="slideshow-img">
+          <img class="slideshow-item" src="../../../assets/space/constellation/aquarius.png" alt="">
+          <img class="slideshow-item" src="../../../assets/space/constellation/aries.png" alt="">
+          <img class="slideshow-item" src="../../../assets/space/constellation/cancer.png" alt="">
+          <img class="slideshow-item" src="../../../assets/space/constellation/capricorn.png" alt="">
+          <img class="slideshow-item" src="../../../assets/space/constellation/gemini.png" alt="">
+          <img class="slideshow-item" src="../../../assets/space/constellation/leo.png" alt="">
+          <img class="slideshow-item" src="../../../assets/space/constellation/libra.png" alt="">
+          <img class="slideshow-item" src="../../../assets/space/constellation/pisces.png" alt="">
+          <img class="slideshow-item" src="../../../assets/space/constellation/virgo.png" alt="">
+          <img class="slideshow-item" src="../../../assets/space/constellation/sagittarius.png" alt="">
+          <img class="slideshow-item" src="../../../assets/space/constellation/scorpio.png" alt="">
+          <img class="slideshow-item" src="../../../assets/space/constellation/taurus.png" alt="">
+        </div>
+        <i class="Icon left-Icon el-icon-d-arrow-left" @click="leftClik"></i>
+        <i class="Icon right-Icon el-icon-d-arrow-right" @click="rightClik"></i>
+      </div>
     </div>
     <div class="item2 item">
       <div class="box1">
@@ -79,11 +97,13 @@
 
 <script>
 import gsap from 'gsap-trial'
+import slideshow from '@/mixin/slideshow.js'
 import { ScrollTrigger } from 'gsap-trial/ScrollTrigger'
 import { ScrollSmoother } from 'gsap-trial/ScrollSmoother'
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
 export default {
   name: 'DemoTest',
+  mixins: [slideshow],
   data () {
     return {
       arr: {
@@ -141,7 +161,8 @@ export default {
     init () {
       if (this.stop) return
       this.innerArr.width = window.innerWidth * 0.5
-      this.innerArr.height = window.innerHeight * 0.5
+      // this.innerArr.height = window.innerHeight * 0.5
+      this.innerArr.height = '200'
       this.arr.countdown = document.getElementsByClassName('countdown_3d')
       this.onresize()
       this.pathAnimation()
